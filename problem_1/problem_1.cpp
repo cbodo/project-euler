@@ -26,7 +26,7 @@ int main() {
 
     sum = sum_multiples_3_or_5(1000);
 
-    std::cout << "The sum of all multiples of 3 or 5 below 1000 is: " << sum << std::endl;
+    std::cout << std::endl << "The sum of all multiples of 3 or 5 below 1000 is: " << sum << std::endl;
 
     return 0;
 }
