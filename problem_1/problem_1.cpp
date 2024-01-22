@@ -18,6 +18,19 @@ g++ your_program.cpp -o your_program
 
 #include <iostream>
 
+int sum_multiples_3_or_5 (int max);
+
+int main() {
+
+    int sum = 0;
+
+    sum = sum_multiples_3_or_5(1000);
+
+    std::cout << "The sum of all multiples of 3 or 5 below 1000 is: " << sum << std::endl;
+
+    return 0;
+}
+
 int sum_multiples_3_or_5 (int max) {
     if(max == 0) return 0;
 
@@ -32,15 +45,4 @@ int sum_multiples_3_or_5 (int max) {
     }
 
     return sum;
-}
-
-int main() {
-
-    int sum = 0;
-
-    sum = sum_multiples_3_or_5(1000);
-
-    std::cout << "The sum of all multiples of 3 or 5 below 1000 is: " << sum << std::endl;
-
-    return 0;
 }
