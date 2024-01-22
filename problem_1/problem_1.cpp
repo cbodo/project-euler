@@ -1,5 +1,7 @@
 /* 
-Euler Project
+
+Project Euler
+
 Problem 1
 Multiples of 3 or 5
 
@@ -38,7 +40,7 @@ int main() {
 
     sum = sum_multiples_3_or_5(1000);
 
-    std::cout << std::endl << "Euler Project" << std::endl << std::endl
+    std::cout << std::endl << "Project Euler" << std::endl << std::endl
               << "Problem 1" << std::endl
               << "Multiples of 3 or 5" << std::endl << std::endl
               << "Description:" << std::endl << std::endl
