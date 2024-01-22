@@ -1,5 +1,6 @@
 /* 
 
+Craig Bodo
 Project Euler
 
 Problem 1
@@ -11,8 +12,8 @@ If we list all the natural numbers below 10 that are multiples of 3 or 5, we get
 Find the sum of all the multiples of 3 or 5 below 1000.
 
 To Run:
-g++ your_program.cpp -o your_program
-./your_program
+g++ problem_1.cpp -o problem_1
+./problem_1
 
 */
 
@@ -26,7 +27,11 @@ int main() {
 
     sum = sum_multiples_3_or_5(1000);
 
-    std::cout << std::endl << "The sum of all multiples of 3 or 5 below 1000 is: " << sum << std::endl;
+    std::cout << std::endl 
+              << "The sum of all multiples of 3 or 5 below 1000 is: " 
+              << sum 
+              << std::endl 
+              << std::endl;
 
     return 0;
 }
