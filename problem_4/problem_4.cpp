@@ -25,16 +25,18 @@ int largest_palindrome (int min, int max);
 
 int main() {
     // Start timestamp
-    auto start = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
-    int palindrome = largest_palindrome(99, 1000);
-    std::cout << "\nThe largest palindrome made from the product of two 3-digit numbers is: " << palindrome << '\n';
+    int result = largest_palindrome(99, 1000);
+
+    std::cout << "\nThe largest palindrome made from the product of two 3-digit numbers is: " << result << '\n';
 
     // End timestamp
-    auto end = std::chrono::high_resolution_clock::now();
-    // Calculate runtime
-    std::chrono::duration<double> duration = end - start;
-    std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    // Calculate runtime in milliseconds
+    std::chrono::duration<double, std::milli> duration = end - start;
+    std::cout << "Execution time: " << duration.count() << " milliseconds" << std::endl;
+
     return 0;
 }
 

@@ -25,19 +25,17 @@ int even_fib (int max_value, int first, int second);
 
 int main() {
     // Start timestamp
-    auto start = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
     
-    int sum = 0;
+    int result = even_fib(4000000, 0, 1);
 
-    sum = even_fib(4000000, 0, 1);
-
-    std::cout << "\nThe sum of the even terms in the Fibonacci sequence whose values do not exceed four million is: " << sum << '\n';
+    std::cout << "\nThe sum of the even terms in the Fibonacci sequence whose values do not exceed four million is: " << result << '\n';
 
     // End timestamp
-    auto end = std::chrono::high_resolution_clock::now();
-    // Calculate runtime
-    std::chrono::duration<double> duration = end - start;
-    std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    // Calculate runtime in milliseconds
+    std::chrono::duration<double, std::milli> duration = end - start;
+    std::cout << "Execution time: " << duration.count() << " milliseconds" << std::endl;
 
     return 0;
 }

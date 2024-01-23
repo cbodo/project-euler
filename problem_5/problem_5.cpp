@@ -27,19 +27,21 @@ void print_proof(int result, int n);
 
 int main() {
     // Start timestamp
-    auto start = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
+    // Upper limit for finding the smallest positive number divisible by all number 1 to n.
     int n = 20;
     int result = smallest_multiple(n);
-
-    std::cout << "\nThe smallest positive number that is evenly divisible by all numbers from 1 to " << n << " is: " << result << '\n';
+    
     print_proof(result, n);
+    std::cout << "\nThe smallest positive number that is evenly divisible by all numbers from 1 to " << n << " is: " << result << '\n';
+    
 
     // End timestamp
-    auto end = std::chrono::high_resolution_clock::now();
-    // Calculate runtime
-    std::chrono::duration<double> duration = end - start;
-    std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    // Calculate runtime in milliseconds
+    std::chrono::duration<double, std::milli> duration = end - start;
+    std::cout << "Execution time: " << duration.count() << " milliseconds" << std::endl;
 
     return 0;
 }

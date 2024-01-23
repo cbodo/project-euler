@@ -23,18 +23,18 @@ long largest_prime_factor (long num, long divisor);
 
 int main() {
     // Start timestamp
-    auto start = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
     long num = 600851475143;
-    long largest_prime = largest_prime_factor(num);
+    long result = largest_prime_factor(num);
 
-    std::cout << "\nThe largest prime factor of " << num << " is: " << largest_prime << '\n';
+    std::cout << "\nThe largest prime factor of " << num << " is: " << result << '\n';
 
     // End timestamp
-    auto end = std::chrono::high_resolution_clock::now();
-    // Calculate runtime
-    std::chrono::duration<double> duration = end - start;
-    std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
+    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
+    // Calculate runtime in milliseconds
+    std::chrono::duration<double, std::milli> duration = end - start;
+    std::cout << "Execution time: " << duration.count() << " milliseconds" << std::endl;
 
     return 0;
 }
