@@ -33,7 +33,7 @@ int main() {
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
     // Calculate runtime in milliseconds
     std::chrono::duration<double, std::milli> duration = end - start;
-    std::cout << "Execution time: " << duration.count() << " milliseconds" << std::endl;
+    std::cout << "\nExecution time: " << duration.count() << " milliseconds" << std::endl;
 
     return 0;
 }
