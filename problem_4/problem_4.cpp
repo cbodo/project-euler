@@ -24,15 +24,15 @@ bool is_palindrome (int n);
 int largest_palindrome (int min, int max);
 
 int main() {
-    // Start run timestamp
+    // Start timestamp
     auto start = std::chrono::high_resolution_clock::now();
 
     int palindrome = largest_palindrome(99, 1000);
     std::cout << "\nThe largest palindrome made from the product of two 3-digit numbers is: " << palindrome << '\n';
 
-    // End run timestamp
+    // End timestamp
     auto end = std::chrono::high_resolution_clock::now();
-    // Calculates runtime
+    // Calculate runtime
     std::chrono::duration<double> duration = end - start;
     std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
     return 0;

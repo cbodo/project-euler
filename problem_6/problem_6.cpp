@@ -32,7 +32,7 @@ int sum_of_squares (int x);
 
 
 int main() {
-    // Start run timestamp
+    // Start timestamp
     auto start = std::chrono::high_resolution_clock::now();
     int x = 100;
     int square_sum = square_of_sum(x);
@@ -43,19 +43,21 @@ int main() {
               << "Sum of the squares of the first " << x << " natural numbers: " << sum_square << '\n'
               << "Difference between the sum of the squares of the first " << x << " natural numbers and the square of the sum: " << result << '\n';
 
-    // End run timestamp
+    // End timestamp
     auto end = std::chrono::high_resolution_clock::now();
-    // Calculates runtime
+    // Calculate runtime
     std::chrono::duration<double> duration = end - start;
     std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
 
     return 0;
 }
 
+// Calculates the difference between the square of the sums and the sum of the squares.
 int sum_square_difference (int square_of_sum, int sum_of_square) {
     return square_of_sum - sum_of_square;
 }
 
+// Calculates the square of the sum of x natural numbers.
 int square_of_sum (int x) {
     int sum = 0;
 
@@ -66,6 +68,7 @@ int square_of_sum (int x) {
     return sum*sum;
 }
 
+// Calculates the sum of x natural squares.
 int sum_of_squares (int x) {
     int sum = 0;
 

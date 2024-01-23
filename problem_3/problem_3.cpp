@@ -22,7 +22,7 @@ g++ problem_3.cpp -o problem_3
 long largest_prime_factor (long num, long divisor);
 
 int main() {
-    // Start run timestamp
+    // Start timestamp
     auto start = std::chrono::high_resolution_clock::now();
 
     long num = 600851475143;
@@ -30,9 +30,9 @@ int main() {
 
     std::cout << "\nThe largest prime factor of " << num << " is: " << largest_prime << '\n';
 
-    // End run timestamp
+    // End timestamp
     auto end = std::chrono::high_resolution_clock::now();
-    // Calculates runtime
+    // Calculate runtime
     std::chrono::duration<double> duration = end - start;
     std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
 

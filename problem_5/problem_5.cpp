@@ -26,7 +26,7 @@ int lcm(int a, int b);
 void print_proof(int result, int n);
 
 int main() {
-    // Start run timestamp
+    // Start timestamp
     auto start = std::chrono::high_resolution_clock::now();
 
     int n = 20;
@@ -35,9 +35,9 @@ int main() {
     std::cout << "\nThe smallest positive number that is evenly divisible by all numbers from 1 to " << n << " is: " << result << '\n';
     print_proof(result, n);
 
-    // End run timestamp
+    // End timestamp
     auto end = std::chrono::high_resolution_clock::now();
-    // Calculates runtime
+    // Calculate runtime
     std::chrono::duration<double> duration = end - start;
     std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
 

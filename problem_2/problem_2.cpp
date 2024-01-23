@@ -24,7 +24,7 @@ g++ problem_2.cpp -o problem_2
 int even_fib (int max_value, int first, int second);
 
 int main() {
-    // Start run timestamp
+    // Start timestamp
     auto start = std::chrono::high_resolution_clock::now();
     
     int sum = 0;
@@ -33,9 +33,9 @@ int main() {
 
     std::cout << "\nThe sum of the even terms in the Fibonacci sequence whose values do not exceed four million is: " << sum << '\n';
 
-    // End run timestamp
+    // End timestamp
     auto end = std::chrono::high_resolution_clock::now();
-    // Calculates runtime
+    // Calculate runtime
     std::chrono::duration<double> duration = end - start;
     std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
 
