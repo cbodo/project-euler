@@ -22,16 +22,20 @@ g++ problem_1.cpp -o problem_1
 int sum_multiples_3_or_5 (int max);
 
 int main() {
+    // Start run timestamp
+    auto start = std::chrono::high_resolution_clock::now();
 
     int sum = 0;
 
     sum = sum_multiples_3_or_5(1000);
 
-    std::cout << std::endl 
-              << "The sum of all multiples of 3 or 5 below 1000 is: " 
-              << sum 
-              << std::endl 
-              << std::endl;
+    std::cout << "\nThe sum of all multiples of 3 or 5 below 1000 is: " << sum << '\n';
+
+    // End run timestamp
+    auto end = std::chrono::high_resolution_clock::now();
+    // Calculates runtime
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "\nExecution time: " << duration.count() << " seconds\n\n";
 
     return 0;
 }
