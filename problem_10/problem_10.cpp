@@ -13,8 +13,8 @@ Find the sum of all the primes below two million.
 
 To Run:
 
-g++ problem_9.cpp -o problem_9
-./problem_9
+g++ problem_10.cpp -o problem_10
+./problem_10
 
 */
 #include <iostream>
