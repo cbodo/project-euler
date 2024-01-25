@@ -25,6 +25,7 @@ g++ problem_13.cpp -o problem_13
 #include <iostream>
 #include <chrono>
 #include <array>
+#include <vector>
 #include <fstream>
 #include <sstream>
 
@@ -95,9 +96,7 @@ std::array<std::array<int, 50>, 100> read_file(const std::string& filename) {
                 result[i][j] = line[j] - '0'; // char to int
             }
         }
-
     }
-
     file.close();
 
     return result;
@@ -110,9 +109,15 @@ void run_program () {
     auto numbers = read_file("./numbers.txt");
     auto result = calculate_sum(numbers);
 
+    std::cout << "\nThe sum of the one hundred 50-digit numbers is: ";
     for (int digit : result) {
         std::cout << digit;
     }
+    std::cout << "\nThe first 10 digits are: ";
+    for (int i = 0; i < 10; ++i) {
+        std::cout << result[i];
+    }
+    std::cout << "\n";
 
     // End timestamp
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
