@@ -33,7 +33,6 @@ int main() {
     return 0;
 }
 
-
 int get_number_word(int n) {
     std::string lows[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     std::string tens[] = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
@@ -42,32 +41,32 @@ int get_number_word(int n) {
         return 0;
     }
     if (n < 20) {
-        std::cout << lows[n] << " ";
+        // std::cout << lows[n] << " ";
         // std::cout << lows[n-10].size() << " ";
         return lows[n].size();
     }
     if (n < 100) {
-        std::cout << tens[n/10] << " " << lows[n%10] << " ";
+        // std::cout << tens[n/10] << " " << lows[n%10] << " ";
         // std::cout << tens[n/10].size() << " " << lows[n%10].size() << " ";
         return tens[n/10].size() + lows[n%10].size();
     }
     if (n < 1000) {
-        std::cout << lows[n/100] << " " << groups[0] << " ";
+        // std::cout << lows[n/100] << " " << groups[0] << " ";
         // std::cout << lows[n/100].size() << " " << groups[0].size() << " ";
         if (n % 100 != 0) {
-             std::cout <<  groups[1] << " ";
+            //  std::cout <<  groups[1] << " ";
             //  std::cout <<  groups[1].size() << " ";
              return lows[n/100].size() + groups[0].size() + groups[1].size() + get_number_word(n%100);
         }
         return lows[n/100].size() + groups[0].size() + get_number_word(n%100);
     }
     if (n < 10000) {
-        std::cout << lows[n/1000] << " " <<  groups[2] << " ";
+        // std::cout << lows[n/1000] << " " <<  groups[2] << " ";
         // std::cout << lows[n/1000].size() << " " <<  groups[2].size() << " ";
         return get_number_word(n/1000) + groups[2].size() + get_number_word(n%1000);
     }
     if (n < 100000) {
-        std::cout << groups[2] << " ";
+        // std::cout << groups[2] << " ";
         // std::cout << get_number_word(n/1000) << " " <<  groups[2].size() << " ";
         return get_number_word(n/1000) + groups[2].size() + get_number_word(n%1000);
     }
@@ -75,25 +74,12 @@ int get_number_word(int n) {
     return 0;
 }
 
+// Iterates through all numbers in the range, adding the sum of letters used to spell the number to the count.
 int get_number_letter_count (int begin, int end) {
-    std::string ones[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    std::string teens[] = {"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
-    std::string tens[] = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
-    std::string groups[] = {"", "thousand", "million", "billion", "trillion"};
     int sum = 0;
-
-    for (int i = begin; i <= end; ++i){
-        if (i < 10) {
-            std::cout << '\n' << i << ": " << ones[i] << '\n';
-            sum += ones[i].size();
-        } else if (i < 20) {
-            std::cout << '\n' << i << ": " << teens[i - 10] << '\n';
-            sum += teens[i - 10].size();
-        } else if (i < 100) {
-            
-        } 
+    for (int i = begin; i <= end; ++i) {
+        sum += get_number_word(i);
     }
-
     return sum;
 }
 
@@ -102,15 +88,10 @@ void run_program () {
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
     int from_number = 1;
-    int to_number = 19;
-    // int result = get_number_letter_count(from_number, to_number);
+    int to_number = 1000;
+    int result = get_number_letter_count(from_number, to_number);
 
-    // std::cout << "\nThe sum of the letters used to write out the numbers " << from_number << " to " << to_number << " are: " << result << '\n';
-
-    std::cout << get_number_word(4567);
-    std::cout << '\n';
-    std::cout << get_number_word(45678);
-    std::cout << '\n';
+    std::cout << "\nThe sum of letters used to write out the numbers " << from_number << " to " << to_number << " is: " << result << '\n';
 
     // End timestamp
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
