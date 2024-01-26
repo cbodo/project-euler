@@ -25,7 +25,6 @@ g++ problem_17.cpp -o problem_17
 #include <chrono>
 
 void run_program ();
-int number_letter_counts (int begin, int end);
 int get_number_letter_count (int begin, int end);
 
 int main() {
@@ -33,43 +32,36 @@ int main() {
     return 0;
 }
 
-
 int get_number_word(int n) {
-    std::string ones[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    std::string teens[] = {"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+    std::string lows[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
     std::string tens[] = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
     std::string groups[] = {"hundred", "and", "thousand", "million", "billion", "trillion"};
     if (n == 0) {
         return 0;
     }
-    if (n < 10) {
-        std::cout << ones[n] << " ";
-        // std::cout << ones[n-10].size() << " ";
-        return ones[n].size();
-    }
     if (n < 20) {
-        std::cout << teens[n-10] << " ";
-        // std::cout << teens[n-10].size() << " ";
-        return teens[n-10].size();
+        std::cout << lows[n] << " ";
+        // std::cout << lows[n].size() << " ";
+        return lows[n].size();
     }
     if (n < 100) {
-        std::cout << tens[n/10] << " " << ones[n%10] << " ";
-        // std::cout << tens[n/10].size() << " " << ones[n%10].size() << " ";
-        return tens[n/10].size() + ones[n%10].size();
+        std::cout << tens[n/10] << " " << lows[n%10] << " ";
+        // std::cout << tens[n/10].size() << " " << lows[n%10].size() << " ";
+        return tens[n/10].size() + lows[n%10].size();
     }
     if (n < 1000) {
-        std::cout << ones[n/100] << " " << groups[0] << " ";
-        // std::cout << ones[n/100].size() << " " << groups[0].size() << " ";
+        std::cout << lows[n/100] << " " << groups[0] << " ";
+        // std::cout << lows[n/100].size() << " " << groups[0].size() << " ";
         if (n % 100 != 0) {
              std::cout <<  groups[1] << " ";
             //  std::cout <<  groups[1].size() << " ";
-             return ones[n/100].size() + groups[0].size() + groups[1].size() + get_number_word(n%100);
+             return lows[n/100].size() + groups[0].size() + groups[1].size() + get_number_word(n%100);
         }
-        return ones[n/100].size() + groups[0].size() + get_number_word(n%100);
+        return lows[n/100].size() + groups[0].size() + get_number_word(n%100);
     }
     if (n < 10000) {
-        std::cout << ones[n/1000] << " " <<  groups[2] << " ";
-        // std::cout << ones[n/1000].size() << " " <<  groups[2].size() << " ";
+        std::cout << lows[n/1000] << " " <<  groups[2] << " ";
+        // std::cout << lows[n/1000].size() << " " <<  groups[2].size() << " ";
         return get_number_word(n/1000) + groups[2].size() + get_number_word(n%1000);
     }
     if (n < 100000) {
@@ -79,28 +71,6 @@ int get_number_word(int n) {
     }
 
     return 0;
-}
-
-int get_number_letter_count (int begin, int end) {
-    std::string ones[] = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    std::string teens[] = {"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
-    std::string tens[] = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
-    std::string groups[] = {"", "thousand", "million", "billion", "trillion"};
-    int sum = 0;
-
-    for (int i = begin; i <= end; ++i){
-        if (i < 10) {
-            std::cout << '\n' << i << ": " << ones[i] << '\n';
-            sum += ones[i].size();
-        } else if (i < 20) {
-            std::cout << '\n' << i << ": " << teens[i - 10] << '\n';
-            sum += teens[i - 10].size();
-        } else if (i < 100) {
-            
-        } 
-    }
-
-    return sum;
 }
 
 void run_program () {
