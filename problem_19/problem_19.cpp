@@ -29,11 +29,10 @@ g++ problem_19.cpp -o problem_19
 */
 #include <iostream>
 #include <chrono>
-#include <iomanip>
-#include <ctime>
 
 void run_program ();
 int solution ();
+int date_counter(int start_year, int start_month, int start_day, int end_year, int end_month, int end_day);
 bool is_leap_year(int year);
 std::time_t get_time(int year, int day, int month);
 
@@ -42,20 +41,35 @@ int main() {
     return 0;
 }
 
-bool is_leap_year(int year) {
-    return (year % 4 == 0) && ((year % 400 == 0) || (year % 100 != 0));
+int date_counter(int start_year, int start_month, int start_day, int end_year, int end_month, int end_day) {
+    int sunday_count = 1;
+    int current_year = start_year;
+    int current_month = start_month;
+    int current_day = start_day;
+
+    while (current_year <= end_year) {
+        std::cout << current_year << '\n';
+        for (int i = 0; i < 12; ++i) {
+            if (i == 1) {
+                if (is_leap_year(current_year)) {
+                    std::cout << (i+1 < 10 ? '0' : '\0') << i+1 << ": 29 days" << '\n';
+                }
+                std::cout << (i+1 < 10 ? '0' : '\0') << i+1 << ": 28 days" << '\n';
+            }
+            else if (i == 3 || i == 5 || i == 8 || i == 10 ) {
+                std::cout << (i+1 < 10 ? '0' : '\0')<< i+1 << ": 30 days" << '\n';
+            }
+            else {
+                std::cout << (i+1 < 10 ? '0' : '\0')<< i+1 << ": 31 days" << '\n';
+            }
+            
+        }
+        current_year++;
+    }
 }
 
-std::time_t get_time(int year, int month, int day) {
-    // Create a tm structure and populate it with user input
-    std::tm date = {0};
-    date.tm_year = year - 1900; // Years since 1900
-    date.tm_mon = month - 1;     // Months since January (0-based)
-    date.tm_mday = day;          // Day of the month
-
-    // Convert tm structure to a time_t object
-    std::time_t time = std::mktime(&date);
-    return time;
+bool is_leap_year(int year) {
+    return (year % 4 == 0) && ((year % 400 == 0) || (year % 100 != 0));
 }
 
 int solution () {
@@ -66,42 +80,11 @@ void run_program () {
     // Start timestamp
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
-    std::time_t start_time = get_time(1901, 1, 1);
-    std::time_t end_time = get_time(2000, 12, 31);
-
-    // Convert time_t to a readable string format
-    char start_time_buffer[80];
-    std::strftime(start_time_buffer, sizeof(start_time_buffer), "%A, %B %d, %Y", std::localtime(&start_time));
-
-    // Display the formatted date
-    std::cout << "\nStart date: " << start_time_buffer << std::endl;
-
-    // Convert time_t to a readable string format
-    char end_time_buffer[80];
-    std::strftime(end_time_buffer, sizeof(end_time_buffer), "%A, %B %d, %Y", std::localtime(&end_time));
-
-    // Display the formatted date
-    std::cout << "\nEnd date: " << end_time_buffer << std::endl;
+    date_counter(1901, 1, 1, 2000, 12, 31);
 
     // int result = solution();
 
     // std::cout << "\nSolution: " << result << '\n';
-
-    // int from = 1900;
-    // int to = 2024;
-    // int sum = 0;
-    // std::vector<int> leap_years;
-    // for (int i = from; i <= to; ++i) {
-    //     if (is_leap_year(i)) {
-    //         sum += 1;
-    //         leap_years.push_back(i);
-    //     }
-    // }
-    // std::cout << "Number of leap years from 1900 to 2024: " << sum << '\n';
-
-    // for (int j = 0; j < leap_years.size(); ++j) {
-    //     std::cout << leap_years[j] << '\n';
-    // }
 
     // End timestamp
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
