@@ -21,6 +21,7 @@ public:
 
     void insert(const Name& value);
     void display();
+    long long sum_scores();
 };
 
 #endif

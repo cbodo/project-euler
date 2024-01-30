@@ -43,3 +43,13 @@ void LinkedList::display() {
     }
     std::cout << '\n';
 }
+
+long long LinkedList::sum_scores() {
+    long long sum = 0;
+    Node* current = head;
+    while (current != nullptr) {
+        sum += current->data.get_score();
+        current = current->next;
+    }
+    return sum;
+}

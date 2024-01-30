@@ -30,7 +30,6 @@ g++ -std=c++11 problem_22.cpp list.cpp name.cpp -o problem_22
 
 void run_program ();
 void get_file_contents(std::vector<std::string>& dest, std::string src);
-void get_char_map(std::map<char, int>& char_map);
 
 int main() {
     run_program();
@@ -67,31 +66,18 @@ void get_file_contents(LinkedList& dest, std::string src) {
     }
 }
 
-// Creates a map assigning an int value to each capital letter in the alphabet
-void get_char_map(std::map<char, int>& char_map) {
-    char start = 'A';
-    char end = 'Z';
-    int i = 1;
-
-    for (char c = start; c <= end; ++ c) {
-        char_map[c] = i;
-        i++;
-    }
-}
-
 void run_program () {
     // Start timestamp
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-
-    std::map<char, int> char_map;
-    get_char_map(char_map);
-
     
+    long long sum = 0;
 
     LinkedList names;
     get_file_contents(names, "names.txt");
-
     names.display();
+    sum = names.sum_scores();
+
+    std::cout << "The total of all the name scores in the file is: " << sum << '\n';
 
     // End timestamp
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
