@@ -60,9 +60,27 @@ if cd "problem_$problem_number"; then
     sed -i '' "s/{{DESCRIPTION}}/$escaped_description/" "problem_$problem_number.cpp"
     sed -i '' "s/{{TITLE}}/$problem_title/" "problem_$problem_number.cpp"
 
+
+
     # Optional: Open the file in your preferred text editor
     open -a "Visual Studio Code" "problem_$problem_number.cpp"  # Use your preferred text editor
+
 else
     echo "Error: Failed to change directory."
+    exit 1
+fi
+
+
+
+# Construct the URL
+url="https://projecteuler.net/problem=$problem_number"
+
+# Open the URL in the default web browser
+if command -v xdg-open &>/dev/null; then
+    xdg-open "$url"   # Linux
+elif command -v open &>/dev/null; then
+    open "$url"       # macOS
+else
+    echo "Error: Unable to open URL. Please open '$url' manually."
     exit 1
 fi
