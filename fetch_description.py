@@ -53,13 +53,16 @@ def fetch_problem_description(problem_number):
             if problem_content:
                 # Get text content within the <div class="problem_content"> tag
                 problem_description = problem_content.get_text(separator='\n')
+                # Strip leading and trailing whitespace
+                problem_description = problem_description.strip()
                 # Parse LaTeX expressions and replace LaTeX symbols with Unicode characters
                 problem_description = parse_latex(problem_description)
-                return problem_description.strip()
+                return problem_description
             else:
                 return "Failed to find problem description."
     except Exception as e:
         return f"Failed to fetch problem description: {e}"
+
 
 def parse_latex(text):
     # Remove $ symbols around LaTeX statements
