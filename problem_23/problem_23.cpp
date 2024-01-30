@@ -27,14 +27,30 @@ g++ problem_23.cpp -o problem_23
 
 void run_program ();
 bool is_abundant(int n);
+int calculate_divisor_sum_recursive(int n, int divisor=1, int sum=0);
+int calculate_divisor_sum(int n);
 
 int main() {
     run_program();
     return 0;
 }
 
-bool is_abundant(int n) {
+bool is_deficient(int n) {
+    return n > calculate_divisor_sum(n);
+}
 
+int calculate_divisor_sum_recursive(int n, int divisor, int sum) {
+    if (divisor > n /2) {
+        return sum;
+    }
+    if (n % divisor == 0) {
+        sum += divisor;
+    }
+    return calculate_divisor_sum_recursive(n, divisor+1, sum);
+}
+
+int calculate_divisor_sum(int n) {
+    return calculate_divisor_sum_recursive(n);
 }
 
 int solution () {
@@ -45,9 +61,9 @@ void run_program () {
     // Start timestamp
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
-    int result = solution();
+    int limit = 28123;
 
-    std::cout << "\nSolution: " << result << '\n';
+    std::cout << calculate_divisor_sum(28);
 
     // End timestamp
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
