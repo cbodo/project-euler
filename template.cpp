@@ -1,8 +1,8 @@
 /*
 
 Project Euler 
-#{{PROBLEM_NUMBER}} - {{TITLE}}
-Solution by Craig Bodo
+Problem #{{PROBLEM_NUMBER}}: {{TITLE}}
+Craig Bodo
 
 Description:
 {{DESCRIPTION}}
@@ -16,32 +16,13 @@ g++ problem_{{PROBLEM_NUMBER}}.cpp -o problem_{{PROBLEM_NUMBER}}
 
 */
 #include <iostream>
-#include <chrono>
 
-void run_program ();
-int solution ();
+using namespace std;
+
 
 int main() {
-    run_program();
+    
+    cout << "\nProject Euler - Problem #{{PROBLEM_NUMBER}}: {{TITLE}}\n";
+
     return 0;
-}
-
-int solution () {
-    return 0;
-}
-
-void run_program () {
-    // Start timestamp
-    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-
-    int result = solution();
-
-    std::cout << "\nSolution: " << result << '\n';
-
-    // End timestamp
-    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-
-    // Calculate runtime in milliseconds
-    std::chrono::duration<double, std::milli> duration = end - start;
-    std::cout << "\nExecution time: " << duration.count() << " milliseconds" << std::endl;
 }
