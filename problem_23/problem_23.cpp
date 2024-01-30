@@ -23,93 +23,59 @@ g++ problem_23.cpp -o problem_23
 
 */
 #include <iostream>
-#include <chrono>
+#include <vector>
 
-void run_program ();
-int sum_non_abundants(int n);
-bool is_in_set(int n, std::vector<int> set);
-bool is_abundant(int n);
-int calculate_divisor_sum_recursive(int n, int divisor=1, int sum=0);
-int calculate_divisor_sum(int n);
+using namespace std;
 
-int main() {
-    run_program();
-    return 0;
-}
-
-int sum_non_abundants(int n) {
-    std::vector<int> abundant_numbers;
-    for (int i = 0; i < n; ++i) {
-        if (is_abundant(i)) {
-            abundant_numbers.push_back(i);
-        }
-    }
-
-    std::vector<int> abundant_sums;
-    for (int i = 0; i < abundant_numbers.size(); ++i) {
-        for (int j = 0; j < abundant_numbers.size(); ++j) {
-            if (i + j <= n) {
-                abundant_sums.push_back(i + j);
-            }
-            else {
-                break;
-            }
-        }
-    }
-
-    int sum;
-
-    for (int i = 0; i < n; ++i) {
-        if (!is_in_set(i, abundant_sums)) {
+int calculate_divisor_sum(int n) {
+    int sum = 1; // Start with 1 since every number is divisible by 1
+    for (int i = 2; i*i <= n; ++i) {
+        if (n % i == 0) {
             sum += i;
+            if (i != n / i) // Avoid counting the square root twice
+                sum += n / i;
         }
     }
-
     return sum;
 }
 
-bool is_in_set(int n, std::vector<int> set) {
-    for (int i = 0; i < set.size(); ++i) {
-        if (n == i) return true;
-    }
-    return false;
-}
-
 bool is_abundant(int n) {
-    return n < calculate_divisor_sum(n);
+    return calculate_divisor_sum(n) > n;
 }
 
-int calculate_divisor_sum_recursive(int n, int divisor, int sum) {
-    if (divisor > n /2) {
-        return sum;
+int sum_non_abundants(int limit) {
+    vector<int> abundant_numbers;
+    for (int i = 1; i < limit; ++i) {
+        if (is_abundant(i))
+            abundant_numbers.push_back(i);
     }
-    if (n % divisor == 0) {
-        sum += divisor;
+
+    vector<bool> is_abundant_sum(limit + 1, false);
+    for (int i = 0; i < abundant_numbers.size(); ++i) {
+        for (int j = i; j < abundant_numbers.size(); ++j) {
+            int sum = abundant_numbers[i] + abundant_numbers[j];
+            if (sum <= limit)
+                is_abundant_sum[sum] = true;
+            else
+                break;
+        }
     }
-    return calculate_divisor_sum_recursive(n, divisor+1, sum);
+
+    int sum = 0;
+    for (int i = 1; i <= limit; ++i) {
+        if (!is_abundant_sum[i])
+            sum += i;
+    }
+    return sum;
 }
 
-int calculate_divisor_sum(int n) {
-    return calculate_divisor_sum_recursive(n);
-}
-
-int solution () {
-    return 0;
-}
-
-void run_program () {
-    // Start timestamp
-    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-
+int main() {
+    
     int limit = 28123;
 
-    std::cout << "\nThe sum of all positive integers which cannot be written as the sum of two abundant numbers is : "
+    cout << "\nProject Euler - Problem #23: Non-Abundant Sums\n"
+         << "\nThe sum of all positive integers which cannot be written as the sum of two abundant numbers is : "
               << sum_non_abundants(limit);
 
-    // End timestamp
-    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-
-    // Calculate runtime in milliseconds
-    std::chrono::duration<double, std::milli> duration = end - start;
-    std::cout << "\nExecution time: " << duration.count() << " milliseconds" << std::endl;
+    return 0;
 }
