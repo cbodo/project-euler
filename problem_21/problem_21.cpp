@@ -1,7 +1,7 @@
 /*
 
 Project Euler 
-#21 - #21 Amicable Numbers - Project Euler
+#21 Amicable Numbers - Project Euler
 Solution by Craig Bodo
 
 Description:

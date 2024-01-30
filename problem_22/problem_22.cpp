@@ -1,7 +1,7 @@
 /*
 
 Project Euler 
-#22 - #22 Names Scores - Project Euler
+#22 Names Scores - Project Euler
 Solution by Craig Bodo
 
 Description:

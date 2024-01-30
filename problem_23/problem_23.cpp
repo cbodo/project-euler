@@ -1,7 +1,7 @@
 /*
 
 Project Euler 
-#23 - #23 Non-Abundant Sums - Project Euler
+#23 Non-Abundant Sums - Project Euler
 Solution by Craig Bodo
 
 Description:
@@ -26,11 +26,15 @@ g++ problem_23.cpp -o problem_23
 #include <chrono>
 
 void run_program ();
-int solution ();
+bool is_abundant(int n);
 
 int main() {
     run_program();
     return 0;
+}
+
+bool is_abundant(int n) {
+
 }
 
 int solution () {
