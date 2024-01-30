@@ -26,6 +26,8 @@ g++ problem_23.cpp -o problem_23
 #include <chrono>
 
 void run_program ();
+int sum_non_abundants(int n);
+bool is_in_set(int n, std::vector<int> set);
 bool is_abundant(int n);
 int calculate_divisor_sum_recursive(int n, int divisor=1, int sum=0);
 int calculate_divisor_sum(int n);
@@ -35,8 +37,46 @@ int main() {
     return 0;
 }
 
-bool is_deficient(int n) {
-    return n > calculate_divisor_sum(n);
+int sum_non_abundants(int n) {
+    std::vector<int> abundant_numbers;
+    for (int i = 0; i < n; ++i) {
+        if (is_abundant(i)) {
+            abundant_numbers.push_back(i);
+        }
+    }
+
+    std::vector<int> abundant_sums;
+    for (int i = 0; i < abundant_numbers.size(); ++i) {
+        for (int j = 0; j < abundant_numbers.size(); ++j) {
+            if (i + j <= n) {
+                abundant_sums.push_back(i + j);
+            }
+            else {
+                break;
+            }
+        }
+    }
+
+    int sum;
+
+    for (int i = 0; i < n; ++i) {
+        if (!is_in_set(i, abundant_sums)) {
+            sum += i;
+        }
+    }
+
+    return sum;
+}
+
+bool is_in_set(int n, std::vector<int> set) {
+    for (int i = 0; i < set.size(); ++i) {
+        if (n == i) return true;
+    }
+    return false;
+}
+
+bool is_abundant(int n) {
+    return n < calculate_divisor_sum(n);
 }
 
 int calculate_divisor_sum_recursive(int n, int divisor, int sum) {
@@ -63,7 +103,8 @@ void run_program () {
 
     int limit = 28123;
 
-    std::cout << calculate_divisor_sum(28);
+    std::cout << "\nThe sum of all positive integers which cannot be written as the sum of two abundant numbers is : "
+              << sum_non_abundants(limit);
 
     // End timestamp
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
