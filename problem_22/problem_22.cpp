@@ -15,32 +15,83 @@ Link: https://projecteuler.net/problem=22
 
 To Run:
 
-g++ problem_22.cpp -o problem_22
+g++ -std=c++11 problem_22.cpp list.cpp name.cpp -o problem_22
 ./problem_22
 
 */
+#include "name.h"
+#include "list.h"
 #include <iostream>
 #include <chrono>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <map>
 
 void run_program ();
-int solution ();
+void get_file_contents(std::vector<std::string>& dest, std::string src);
+void get_char_map(std::map<char, int>& char_map);
 
 int main() {
     run_program();
     return 0;
 }
 
-int solution () {
-    return 0;
+// Takes in names from file and store in a vector
+void get_file_contents(LinkedList& dest, std::string src) {
+    std::ifstream file(src);
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file." << '\n';
+        return;
+    }
+
+    std::string line;
+    int i = 0;
+    while (std::getline(file, line)) {
+        std::stringstream ss(line);
+        std::string str;
+        // Read each string, separated by comma
+        while (std::getline(ss, str, ',')) {
+            str.erase(0, str.find_first_not_of(" \t\n\r\f\v"));  // Remove leading whitespace
+            str.erase(str.find_last_not_of(" \t\n\r\f\v") + 1);  // Remove trailing whitespace
+            // Remove quotes
+            if (!str.empty()) {
+                if (str.front() == '"') str.erase(0, 1);
+                if (str.back() == '"') str.pop_back();
+            }
+            
+            Name new_name(str, i++);
+            dest.insert(new_name);
+        }
+    }
+}
+
+// Creates a map assigning an int value to each capital letter in the alphabet
+void get_char_map(std::map<char, int>& char_map) {
+    char start = 'A';
+    char end = 'Z';
+    int i = 1;
+
+    for (char c = start; c <= end; ++ c) {
+        char_map[c] = i;
+        i++;
+    }
 }
 
 void run_program () {
     // Start timestamp
     std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
-    int result = solution();
+    std::map<char, int> char_map;
+    get_char_map(char_map);
 
-    std::cout << "\nSolution: " << result << '\n';
+    
+
+    LinkedList names;
+    get_file_contents(names, "names.txt");
+
+    names.display();
 
     // End timestamp
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
@@ -49,3 +100,4 @@ void run_program () {
     std::chrono::duration<double, std::milli> duration = end - start;
     std::cout << "\nExecution time: " << duration.count() << " milliseconds" << std::endl;
 }
+
