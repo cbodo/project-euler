@@ -37,61 +37,70 @@ g++ problem_25.cpp -o problem_25
 
 */
 #include <iostream>
-#include <cmath>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-// Function to multiply two vectors representing large numbers
-vector<int> multiply(vector<int>& num1, vector<int>& num2) {
-    int n1 = num1.size();
-    int n2 = num2.size();
-    vector<int> result(n1 + n1, 0);
+// Add two numbers represented as vectors
+vector<int> add(const std::vector<int>& num1, const std::vector<int>& num2) {
+    vector<int> result;
+    int carry = 0;
+    int i = num1.size() - 1;
+    int j = num2.size() - 1;
 
-    for (int i = 0; i < n1; ++i) {
-        int carry = 0;
-        for (int j = 0; j < n2 || carry; ++j) {
-            int temp = result[i + j] + num1[i] * (j < n2 ? num2[j] : 0) + carry;
-            result[i + j] = temp % 10;
-            carry = temp / 10;
-        }
+    // Iterate from least to most significant digit
+    while (i >= 0 || j >= 0 || carry) {
+        int sum = carry;
+        if (i >= 0) sum += num1[i--];
+        if (j >= 0) sum += num2[j--];
+
+        // Add least significant digit to result
+        result.push_back(sum % 10);
+        // Set carry for next iteration
+        carry = sum / 10;
     }
 
-    while (result.size() > 1 && result.back() == 0) {
-        result.pop_back();
-    }
-
+    reverse(result.begin(), result.end());
     return result;
 }
 
-// Uses the golden ratio to find nth Fibonacci number:
-//
-//      x_n = (φ^n - (1 - φ)^n) ÷ √5
-//
-// where:
-//
-//      φ = (1 + √5) ÷ 2
-//
-long long nth_fibonacci_digit (int n) {
-    double golden_ratio = (1+sqrt(5))/2;
-    double conjugate = 1 - golden_ratio;
-    return (pow(golden_ratio, n) - pow((conjugate), n))/sqrt(5);
+void print_number(const vector<int>& vec) {
+    for (int it : vec) {
+        cout << it;
+    }
 }
 
-void get_fibonacci_sequence_to_n (int n, int i = 0) {
-    if (i == n) return;
-    cout << nth_fibonacci_digit(i) << endl;
-    get_fibonacci_sequence_to_n(n, i+1);
+vector<int> nth_fibonacci (int n) {
+    vector<int> prev = {1};
+    vector<int> curr = {1};
+
+    if (n == 0) return prev;
+    if (n == 1) return curr;
+
+    for (int i = 2; i <= n - 1; ++i) {
+        vector<int> next = add(prev, curr);
+        prev = curr;
+        curr = next;
+    }
+
+    return curr;
 }
 
 int main() {
+    int digits = 1000;
+    vector<int> fib;
+    int i = 0;
+    while (fib.size() != digits) {
+        i++;
+        fib = nth_fibonacci(i);
+    }
+    print_number(nth_fibonacci(i));
     
-    cout << "\nProject Euler - Problem #25: 1000-digit Fibonacci Number\n";
+    cout << endl << i << endl;
 
-    // fibonacci(12);
 
-    // nth_fibonacci_digit(12);
 
-    get_fibonacci_sequence_to_n(100);
-
+    
     return 0;
 }
