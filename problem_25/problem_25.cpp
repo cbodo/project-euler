@@ -40,10 +40,34 @@ g++ problem_25.cpp -o problem_25
 
 using namespace std;
 
+void fibonacci(int n) {
+    vector<int> fibonacci_sequence;
+    fibonacci_sequence.insert(fibonacci_sequence.end(), 1);
+    fibonacci_sequence.insert(fibonacci_sequence.end(), 1);  
+    int i = 2;
+
+    while (i < n) {
+        if (fibonacci_sequence.size() >= 2) {
+            int next = fibonacci_sequence[i-1] + fibonacci_sequence[i-2];
+            fibonacci_sequence.insert(fibonacci_sequence.end(), next);
+            cout << "next: " << next << endl;
+        }
+        i++;
+    }
+
+    for (int digit : fibonacci_sequence) {
+        cout << digit << endl;
+    }
+}
 
 int main() {
+
+    // double golden_ratio = (1+sqrt(5))/2;
+    // double conjugate_of_golden_ratio = -(1/golden_ratio);
     
     cout << "\nProject Euler - Problem #25: 1000-digit Fibonacci Number\n";
+
+    fibonacci(12);
 
     return 0;
 }
