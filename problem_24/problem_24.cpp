@@ -26,34 +26,6 @@ g++ -std=c++11 problem_24.cpp -o problem_24
 
 using namespace std;
 
-int rand_between(int min, int max) {
-    return min + rand() % (max - min + 1);
-}
-
-int get_random(const vector<int>& src) {
-    return src[rand_between(0, src.size()-1)];
-}
-
-bool is_in_set(const std::set<long long>& s, long long val) {
-    return s.find(val) != s.end();
-}
-
-long long get_permutation (const vector<int>& digits) {
-    vector<int> temp = digits;
-    long long result = 0;
-    long long multiplier = 1;
-    
-    while (!temp.empty()) {
-        int digit = get_random(temp);
-        long long multiplied = digit * multiplier;
-        result += multiplied;
-        temp.erase(remove(temp.begin(), temp.end(), digit), temp.end());
-        multiplier *= 10;
-    }
-
-    return result;
-}
-
 unsigned long long factorial(unsigned int n) {
     if (n == 0 || n == 1) {
         return 1;
@@ -68,21 +40,19 @@ unsigned long long factorial(unsigned int n) {
 
 int main() {
     vector<int> digits = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    set<long long> permutations;
-    const int limit = 1000000;
+    int millionth_index = 1000000;
 
-    while (permutations.size() < factorial(digits.size())) {
-        long long permutation = get_permutation(digits);
-        if (!is_in_set(permutations, permutation)) {
-            permutations.insert(permutation);
-        }
+    int i = 0;
+    vector<int> temp = digits;
+    while (!temp.empty()) {
+        int f = factorial(temp.size() - 1);
+        int k = millionth_index/f;
+        millionth_index %= f;
+        cout << temp[k];
+        temp.erase(temp.begin() + k);
+        i++;
     }
-
-
-    cout << "\nProject Euler - Problem #24: Permutations\n";
-
-    cout << permutations.size();
-    
+    cout << endl;
 
     return 0;
 }
