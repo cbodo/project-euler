@@ -18,8 +18,7 @@ if [ -z "$problem_number" ]; then
 fi
 
 # Fetch problem title from Project Euler website
-problem_title=$(curl -s "https://projecteuler.net/problem=$problem_number" | grep -o '<h2>.*</h2>' | sed 's/<h2>\(.*\)<\/h2>/\1/')
-
+problem_title=$(curl -s "https://projecteuler.net/problem=$problem_number" | grep -o '<title>.*</title>' | sed 's/<title>\(.*\)<\/title>/\1/')
 
 if [ -z "$problem_title" ]; then
     echo "Error: Failed to fetch problem title."
@@ -71,7 +70,6 @@ else
     echo "Error: Failed to change directory."
     exit 1
 fi
-
 
 # Construct the URL
 url="https://projecteuler.net/problem=$problem_number"
