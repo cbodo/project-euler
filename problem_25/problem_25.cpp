@@ -37,37 +37,61 @@ g++ problem_25.cpp -o problem_25
 
 */
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
-void fibonacci(int n) {
-    vector<int> fibonacci_sequence;
-    fibonacci_sequence.insert(fibonacci_sequence.end(), 1);
-    fibonacci_sequence.insert(fibonacci_sequence.end(), 1);  
-    int i = 2;
+// Function to multiply two vectors representing large numbers
+vector<int> multiply(vector<int>& num1, vector<int>& num2) {
+    int n1 = num1.size();
+    int n2 = num2.size();
+    vector<int> result(n1 + n1, 0);
 
-    while (i < n) {
-        if (fibonacci_sequence.size() >= 2) {
-            int next = fibonacci_sequence[i-1] + fibonacci_sequence[i-2];
-            fibonacci_sequence.insert(fibonacci_sequence.end(), next);
-            cout << "next: " << next << endl;
+    for (int i = 0; i < n1; ++i) {
+        int carry = 0;
+        for (int j = 0; j < n2 || carry; ++j) {
+            int temp = result[i + j] + num1[i] * (j < n2 ? num2[j] : 0) + carry;
+            result[i + j] = temp % 10;
+            carry = temp / 10;
         }
-        i++;
     }
 
-    for (int digit : fibonacci_sequence) {
-        cout << digit << endl;
+    while (result.size() > 1 && result.back() == 0) {
+        result.pop_back();
     }
+
+    return result;
+}
+
+// Uses the golden ratio to find nth Fibonacci number:
+//
+//      x_n = (φ^n - (1 - φ)^n) ÷ √5
+//
+// where:
+//
+//      φ = (1 + √5) ÷ 2
+//
+long long nth_fibonacci_digit (int n) {
+    double golden_ratio = (1+sqrt(5))/2;
+    double conjugate = 1 - golden_ratio;
+    return (pow(golden_ratio, n) - pow((conjugate), n))/sqrt(5);
+}
+
+void get_fibonacci_sequence_to_n (int n, int i = 0) {
+    if (i == n) return;
+    cout << nth_fibonacci_digit(i) << endl;
+    get_fibonacci_sequence_to_n(n, i+1);
 }
 
 int main() {
-
-    // double golden_ratio = (1+sqrt(5))/2;
-    // double conjugate_of_golden_ratio = -(1/golden_ratio);
     
     cout << "\nProject Euler - Problem #25: 1000-digit Fibonacci Number\n";
 
-    fibonacci(12);
+    // fibonacci(12);
+
+    // nth_fibonacci_digit(12);
+
+    get_fibonacci_sequence_to_n(100);
 
     return 0;
 }
