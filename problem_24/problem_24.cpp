@@ -21,6 +21,8 @@ g++ -std=c++11 problem_24.cpp -o problem_24
 
 */
 #include <iostream>
+#include <vector>
+#include <set>
 
 using namespace std;
 
@@ -32,21 +34,19 @@ int get_random(const vector<int>& src) {
     return src[rand_between(0, src.size()-1)];
 }
 
+bool is_in_set(const std::set<long long>& s, long long val) {
+    return s.find(val) != s.end();
+}
+
 long long get_permutation (const vector<int>& digits) {
     vector<int> temp = digits;
     long long result = 0;
     long long multiplier = 1;
-    int n = temp.size();
     
-    while (temp.size() > 0) {
-        long long digit = get_random(temp);
+    while (!temp.empty()) {
+        int digit = get_random(temp);
         long long multiplied = digit * multiplier;
         result += multiplied;
-        cout << "temp: ";
-        for (int item : temp) {
-            cout << item << ' ';
-        }
-        cout << " digit: " << digit << " multiplier: " << multiplier << " multiplied: " << multiplied << " result: " << result << endl;
         temp.erase(remove(temp.begin(), temp.end(), digit), temp.end());
         multiplier *= 10;
     }
@@ -54,35 +54,35 @@ long long get_permutation (const vector<int>& digits) {
     return result;
 }
 
-bool is_in_vec(const vector<long long>& vec, int item, int i = 0) {
-    if (i == vec.size()) return false;
-    if (item == vec[i]) return true;
-    return is_in_vec(vec, item, i+1);
+unsigned long long factorial(unsigned int n) {
+    if (n == 0 || n == 1) {
+        return 1;
+    } else {
+        unsigned long long result = 1;
+        for (unsigned int i = 2; i <= n; ++i) {
+            result *= i;
+        }
+        return result;
+    }
 }
 
 int main() {
     vector<int> digits = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-    long long digit_size = 1000000000;
+    set<long long> permutations;
+    const int limit = 1000000;
 
-    vector<long long> permutations;
-
-    int limit = 10;
-
-    while (permutations.size() < limit) {
+    while (permutations.size() < factorial(digits.size())) {
         long long permutation = get_permutation(digits);
-        if (!is_in_vec(permutations, permutation)) {
-            cout << endl;
-            permutations.push_back(permutation);
-            cout << endl;
+        if (!is_in_set(permutations, permutation)) {
+            permutations.insert(permutation);
         }
     }
 
 
     cout << "\nProject Euler - Problem #24: Permutations\n";
 
-    for (int i = 0; i < permutations.size(); ++i) {
-        cout << permutations[i] << '\n';
-    }
+    cout << permutations.size();
+    
 
     return 0;
 }
