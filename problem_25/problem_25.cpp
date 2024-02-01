@@ -32,7 +32,7 @@ Link: https://projecteuler.net/problem=25
 
 To Run:
 
-g++ problem_25.cpp -o problem_25
+g++ -std=c++11 problem_25.cpp -o problem_25
 ./problem_25
 
 */
