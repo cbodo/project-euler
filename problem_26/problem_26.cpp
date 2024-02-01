@@ -31,11 +31,33 @@ g++ problem_26.cpp -o problem_26
 
 */
 #include <iostream>
-#include <iomanip>
-#include <string>
-#include <unordered_map>
+#include <vector>
 
 using namespace std;
+
+int find_longest_recurring_cycle(int n) {
+    int longest_cycle = 0;
+
+    for (int d = 2; d < n; ++d) {
+        vector<int> remainders(d, -1);
+        int numerator = 1;
+        int position = 0;
+
+        while (numerator != 0 && remainders[numerator] == -1) {
+            remainders[numerator] = position++;
+            numerator *= 10;
+            numerator %= d;
+        }
+
+        if (numerator != 0) {
+            int cycle_length = position - remainders[numerator];
+            if (cycle_length > longest_cycle) {
+                longest_cycle = cycle_length;
+            }
+        }
+    }
+    return longest_cycle;
+}
 
 int main() {
     
@@ -45,33 +67,12 @@ int main() {
     cout << "The value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part is: "
          << endl;
 
-    int n = 1000;
+    int n = 10;
 
     for (int i = 2; i < n; ++i) {
-        double num = 1.0 / i; // Example number
-        std::string numStr = std::to_string(num);
-        
-        // Find the position of the decimal point
-        size_t decimalPos = numStr.find('.');
-        
-        // Calculate the number of digits after the decimal point
-        size_t fractionDigits = numStr.size() - decimalPos - 1;
-        
-        // Detect repeating pattern in the fraction
-        std::unordered_map<std::string, size_t> patternMap;
-        std::string pattern;
-        for (size_t i = decimalPos + 1; i < numStr.size(); ++i) {
-            pattern.push_back(numStr[i]);
-            if (patternMap.count(pattern)) {
-                // Found repeating pattern
-                fractionDigits = i - decimalPos - patternMap[pattern];
-                break;
-            }
-            patternMap[pattern] = i - decimalPos;
-        }
-        
-        // Set precision dynamically based on the number of digits in the fraction
-        std::cout << std::setprecision(fractionDigits) << num << std::endl;
+        double q = 1.0 / i;
+        int r = i % 1;
+        cout << "1/" << i << " = " << q << ", Remainder = " << r << endl;
 
     }
 
