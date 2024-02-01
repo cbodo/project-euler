@@ -22,7 +22,7 @@ using namespace std;
 
 int main() {
     
-    cout << "\nProject Euler - Problem #{{PROBLEM_NUMBER}}: {{TITLE}}\n";
+    cout << endl << "Project Euler - Problem #{{PROBLEM_NUMBER}}: {{TITLE}}" << endl << endl;
 
     return 0;
 }
