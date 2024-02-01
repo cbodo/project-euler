@@ -32,102 +32,39 @@ Link: https://projecteuler.net/problem=25
 
 To Run:
 
-g++ -std=c++11 problem_25.cpp -o problem_25
+g++ problem_25.cpp -o problem_25
 ./problem_25
 
 */
 #include <iostream>
-#include <vector>
+#include <cmath>
 
 using namespace std;
 
-class Matrix {
-    public:
-        vector<vector<long long>> data;
-
-        // Constructor to initialize the matrix with a vector
-        Matrix(const vector<vector<long long>>& values) : data(values) {}
-
-        // Function for matrix multiplication, e.g.:
-        //
-        //      |1 1|*|1 1|
-        //      |1 0| |1 0|
-        //
-        Matrix operator*(const Matrix& other) {
-            int n = data.size();
-            int m = other.data[0].size();
-            int p = other.data.size();
-            Matrix result(vector<vector<long long>>(n, vector<long long>(m, 0)));
-
-            for (int i = 0; i < n; ++i) {
-                for (int j = 0; j < m; ++j) {
-                    for (int k = 0; k < p; ++k) {
-                        result.data[i][j] += data[i][k] * other.data[k][j];
-                    }
-                }
-            }
-
-            return result;
-        }
-};
-
-// Calculates exponentiation of a matrix
-Matrix matrix_power(const Matrix& base, int exp) {
-    if (exp == 0) {
-        // Get the identity matrix
-        int n = base.data.size();
-        Matrix identity(vector<vector<long long>>(n, vector<long long>(n, 0)));
-
-        for (int i = 0; i < n; ++i) {
-            identity.data[i][i] = 1;
-        }
-        return identity;
-    }
-
-    Matrix result = matrix_power(base, exp/2);
-    result = result * result;
-    
-    if (exp % 2 == 1) {
-        result = result * base;
-    }
-
-    return result;
+// Formula to find the index of the first number in the fibonacci sequence 
+// with 1000 digits. Uses the inverse of Binet's formula to calculate.
+int get_index_of_fib_with_n_digits(int n) {
+    if (n < 2) return 1;
+    double phi = (1 + sqrt(5))/2;
+    return ceil((n + log10(5) / 2 - 1) / log10(phi));
 }
-
-int count_digits(long long num, int digits = 0) {
-    if (num == 0) return digits;
-    return count_digits(num /= 10, digits + 1);
-}
-
-// Gets the index of the first Fibonacci number with n digits
-int index_of_fibonacci_number_with_n_digits(int n) {
-    // Initialize matrix
-    vector<long long> fibonacci = {0, 1};
-
-    int index = 2;
-
-    while (true) {
-        fibonacci.push_back(fibonacci[index - 1] + fibonacci[index - 2]);
-        if (fibonacci[index] >= pow(10, n - 1)) {
-            return index;
-        }
-        ++index;
-    }
-
-    return -1;
-}
-
 
 int main() {
 
     cout << endl << "Project Euler - Problem #25: 1000-digit Fibonacci Number" << endl << endl;
 
-    int n = 3;
+    int n = 1000;
 
+    // Find the index. First run with example problem for proof, then find the index with n digits.
     cout << "The index of the first term in the Fibonacci sequence to contain " 
+         << 3 
+         << " digits is: " 
+         << get_index_of_fib_with_n_digits(3) 
+         << endl
+         << "The index of the first term in the Fibonacci sequence to contain " 
          << n 
          << " digits is: " 
-         << index_of_fibonacci_number_with_n_digits(n) 
+         << get_index_of_fib_with_n_digits(n) 
          << endl
          << endl;
 
