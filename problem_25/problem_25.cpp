@@ -122,7 +122,7 @@ int main() {
 
     cout << endl << "Project Euler - Problem #25: 1000-digit Fibonacci Number" << endl << endl;
 
-    int n = 1000;
+    int n = 3;
 
     cout << "The index of the first term in the Fibonacci sequence to contain " 
          << n 
