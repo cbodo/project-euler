@@ -38,69 +38,12 @@ g++ problem_25.cpp -o problem_25
 */
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
-// Add two numbers represented as vectors
-vector<int> add(const std::vector<int>& num1, const std::vector<int>& num2) {
-    vector<int> result;
-    int carry = 0;
-    int i = num1.size() - 1;
-    int j = num2.size() - 1;
 
-    // Iterate from least to most significant digit
-    while (i >= 0 || j >= 0 || carry) {
-        int sum = carry;
-        if (i >= 0) sum += num1[i--];
-        if (j >= 0) sum += num2[j--];
-
-        // Add least significant digit to result
-        result.push_back(sum % 10);
-        // Set carry for next iteration
-        carry = sum / 10;
-    }
-
-    reverse(result.begin(), result.end());
-    return result;
-}
-
-void print_number(const vector<int>& vec) {
-    for (int it : vec) {
-        cout << it;
-    }
-}
-
-vector<int> nth_fibonacci (int n) {
-    vector<int> prev = {1};
-    vector<int> curr = {1};
-
-    if (n == 0) return prev;
-    if (n == 1) return curr;
-
-    for (int i = 2; i <= n - 1; ++i) {
-        vector<int> next = add(prev, curr);
-        prev = curr;
-        curr = next;
-    }
-
-    return curr;
-}
 
 int main() {
-    int digits = 1000;
-    vector<int> fib;
-    int i = 0;
-    while (fib.size() != digits) {
-        i++;
-        fib = nth_fibonacci(i);
-    }
-    print_number(nth_fibonacci(i));
-    
-    cout << endl << i << endl;
-
-
-
     
     return 0;
 }
