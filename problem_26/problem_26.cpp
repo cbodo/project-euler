@@ -31,9 +31,11 @@ g++ problem_26.cpp -o problem_26
 
 */
 #include <iostream>
+#include <iomanip>
+#include <string>
+#include <unordered_map>
 
 using namespace std;
-
 
 int main() {
     
@@ -41,8 +43,37 @@ int main() {
 
 
     cout << "The value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part is: "
-         << endl
          << endl;
+
+    int n = 1000;
+
+    for (int i = 2; i < n; ++i) {
+        double num = 1.0 / i; // Example number
+        std::string numStr = std::to_string(num);
+        
+        // Find the position of the decimal point
+        size_t decimalPos = numStr.find('.');
+        
+        // Calculate the number of digits after the decimal point
+        size_t fractionDigits = numStr.size() - decimalPos - 1;
+        
+        // Detect repeating pattern in the fraction
+        std::unordered_map<std::string, size_t> patternMap;
+        std::string pattern;
+        for (size_t i = decimalPos + 1; i < numStr.size(); ++i) {
+            pattern.push_back(numStr[i]);
+            if (patternMap.count(pattern)) {
+                // Found repeating pattern
+                fractionDigits = i - decimalPos - patternMap[pattern];
+                break;
+            }
+            patternMap[pattern] = i - decimalPos;
+        }
+        
+        // Set precision dynamically based on the number of digits in the fraction
+        std::cout << std::setprecision(fractionDigits) << num << std::endl;
+
+    }
 
     return 0;
 }
