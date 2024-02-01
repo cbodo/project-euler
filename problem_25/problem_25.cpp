@@ -109,12 +109,12 @@ int index_of_fibonacci_number_with_n_digits(int n) {
     while (true) {
         fibonacci.push_back(fibonacci[index - 1] + fibonacci[index - 2]);
         if (fibonacci[index] >= pow(10, n - 1)) {
-            break;
+            return index;
         }
         ++index;
     }
 
-    return index;
+    return -1;
 }
 
 
@@ -122,7 +122,7 @@ int main() {
 
     cout << endl << "Project Euler - Problem #25: 1000-digit Fibonacci Number" << endl << endl;
 
-    int n = 3;
+    int n = 1000;
 
     cout << "The index of the first term in the Fibonacci sequence to contain " 
          << n 
