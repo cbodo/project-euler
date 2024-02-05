@@ -43,11 +43,11 @@ g++ problem_27.cpp -o problem_27
 using namespace std;
 
 bool is_prime(int n, int i = 2) {
+  if (n <= 1 || n % i == 0) {
+    return false;
+  }
   if (i > sqrt(n)) {
     return true;
-  }
-  if (n % i == 0) {
-    return false;
   }
   return is_prime(n, i + 1);
 }
@@ -57,16 +57,40 @@ int main() {
   cout << endl
        << "Project Euler - Problem #27: Quadratic Primes" << endl
        << endl
-       << boolalpha << " 1: " << is_prime(1) << endl
-       << " 2: " << is_prime(2) << endl
-       << " 3: " << is_prime(3) << endl
-       << " 4: " << is_prime(4) << endl
-       << " 5: " << is_prime(5) << endl
-       << " 6: " << is_prime(6) << endl
-       << "17: " << is_prime(17) << endl
-       << "18: " << is_prime(18) << endl
-       << "19: " << is_prime(19) << endl
-       << "20: " << is_prime(20) << endl;
+       << "Find the product of the coefficients, a and b, for the quadratic expression "
+       << endl
+       << endl
+       << "  n^2 + an + b, where |a| < 1000 and |b| ≤ 1000" << endl
+       << "  where |n| is the modulus/absolute value of n (e.g. |11| = 11 and |-4| = 4)"
+       << endl
+       << endl
+       << "that produces the maximum number of primes for consecutive values of n, starting with n = 0."
+       << endl
+       << endl;
+
+  int max_primes = 0;
+  int product_ab = 0;
+
+  // Iterate through all ints |a| < 1000 and |b| <= 1000
+  for (int a = -999; a < 1000; ++a) {
+    for (int b = -1000; b < 1001; ++b) {
+      int n = 0;
+
+      // Check primeness of n^2 + an + b for current a, b and n
+      while (is_prime((n * n) + (a * n) + b)) {
+        n += 1;
+      }
+
+      // Update max_primes and product_ab if current values are greater
+      if (n > max_primes) {
+        max_primes = n;
+        product_ab = a * b;
+      }
+    }
+  }
+
+  cout << "The product of coefficients that produces the max number of primes for consecutive values of n is: "
+       << product_ab << endl;
 
   return 0;
 }
