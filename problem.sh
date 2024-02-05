@@ -64,7 +64,7 @@ if cd "problem_$problem_number"; then
 
 
     # Optional: Open the file in your preferred text editor
-    open -a "Visual Studio Code" "problem_$problem_number.cpp"  # Use your preferred text editor
+    # open -a "Visual Studio Code" "problem_$problem_number.cpp"  # Use your preferred text editor
 
 else
     echo "Error: Failed to change directory."
