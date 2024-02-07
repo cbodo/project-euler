@@ -5,17 +5,19 @@ Problem #28: Number Spiral Diagonals
 Craig Bodo
 
 Description:
-Starting with the number 1 and moving to the right in a clockwise direction a 5 by 5 spiral is formed as follows:
+Starting with the number 1 and moving to the right in a clockwise direction a 5
+by 5 spiral is formed as follows:
 
-	21 22 23 24 25
-	20  7  8  9 10
-	19  6  1  2 11
-	18  5  4  3 12
-	17 16 15 14 13
+        21 22 23 24 25
+        20  7  8  9 10
+        19  6  1  2 11
+        18  5  4  3 12
+        17 16 15 14 13
 
 It can be verified that the sum of the numbers on the diagonals is 101.
 
-What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?
+What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed
+in the same way?
 
 Link: https://projecteuler.net/problem=28
 
@@ -26,67 +28,43 @@ g++ -std=c++11 problem_28.cpp -o problem_28
 
 */
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
-void right(int row, int col) {
-	row += 0;
-	col += 1;
-}
+// Each round of the spiral consists of a square grid with a maximum value X,
+// where X is an odd perfect square.
+// The size of each round increases by 2 units on each side, starting from 1x1.
+// The maximum value X for each round can be calculated using the formula
+//     X = (i*2+1)^2, where i is the index of the round (0-indexed).
+// The distance between adjacent corners of each round is sqrt(X) - 1.
+// The sum of the four corners of each round can be calculated using the formula: sum = 4X - 6(sqrt(X)) - 6.
+//
+int sum_of_diagonals(int grid_size, int sum=1, int round=1) {
+	// Base case: reach the last round
+	if (round > grid_size/2)
+		return sum;
 
-void down(int row, int col) {
-	row += 1;
-	col += 0;
-}
+	// Calculate size of current round
+	int sqrt_x = round * 2 + 1;
 
-void left(int row, int col) {
-	row += 0;
-	col -= 1;
-}
+	// Add the sum of the corners to the total sum
+    sum += (4 * sqrt_x * sqrt_x) - (6 * sqrt_x) + 6;
 
-void up(int row, int col) {
-	row -= 1;
-	col += 0;
-}
-
-void initialize_grid(vector<vector<int>> &grid, int side_len) {
-	for (int rows = 0; rows < side_len; ++rows) {
-    	vector<int> r;
-    	for (int cols = 0; cols < side_len; ++ cols) {
-     		r.push_back(0);
-     	}
-      	grid.push_back(r);
-    }
-}
-
-void print_grid(const vector<vector<int>> grid, int side_len) {
-	for (int r = 0; r < grid.size(); ++r) {
-    	for (int c = 0; c < grid.size(); ++ c) {
-       		cout << (grid[r][c] < 10 ? ' ' : '\0')
-         		 << grid[r][c]
-            	 << (((c + 1) % side_len) == 0 ? '\n' : ' ');
-     	}
-    }
-    cout << endl;
+    // Recursively call the function for the next round
+    return sum_of_diagonals(grid_size, sum, round + 1);
 }
 
 int main() {
 
-    cout << endl << "Project Euler - Problem #28: Number Spiral Diagonals" << endl << endl;
+  cout << endl
+       << "Project Euler - Problem #28: Number Spiral Diagonals" << endl
+       << endl;
 
-    int sum = 0;
-    int side_len = 5;
+  int grid_size = 1001;
 
-    vector<vector<int>> grid;
-    initialize_grid(grid, side_len);
+  int sum = sum_of_diagonals(grid_size);
 
-    int row = side_len/2;
-    int col = side_len/2;
-    grid[row][col] = 1;
-
-    print_grid(grid, side_len);
-
-    cout << "The sum of diagonals in a 1001 by 1001 spiral is: " << sum << endl;
-    return 0;
+  cout << "The sum of diagonals in a " << grid_size << " by " << grid_size
+       << " spiral is: " << sum << endl;
+  return 0;
 }
