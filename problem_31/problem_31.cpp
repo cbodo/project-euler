@@ -24,39 +24,26 @@ g++ std=c++11 -o problem_31 problem_31.cpp
 */
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
-
-bool compare(int a, int b) {
-    return a > b;
-}
-
-int make_change_greedy(vector<int>& coins, int n) {
-    // Sort coins in descending order by denomination
-    reverse(coins.begin(), coins.end());
-
-    int num_coins = 0;
-
-    for (int i = 0; i < coins.size(); ++i) {
-        while (coins[i] <= n) {
-            n -= coins[i];      // Subtract coin denomination from remaining amount
-            num_coins++;    // Increment number of coins used
-        }
-    }
-    return num_coins;
-}
 
 int main() {
 
     cout << endl << "Project Euler - Problem #31: Coin Sums" << endl << endl;
 
-    vector<int> coins = {1, 2, 5, 10, 20, 50, 100, 200};
     int n = 200;
+    vector<int> coins = {1, 2, 5, 10, 20, 50, 100, 200};
+    vector<int> ways(n + 1, 0);
 
-    int result = make_change_greedy(coins, n);
+    ways[0] = 1; // Base case: 1 way to make change for 0
 
-    cout << "Minimum number of coins required to make " << n << " is: " << result << endl;
+    for (int coin : coins) {
+        for (int i = coin; i <= n; ++i) {
+            ways[i] += ways[i - coin];
+        }
+    }
+
+    cout << "Minimum number of coins required to make " << n << " is: " << ways[n] << endl;
 
     return 0;
 }
