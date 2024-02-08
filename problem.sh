@@ -59,9 +59,8 @@ if cd "problem_$problem_number"; then
     sed -i '' "s/{{PROBLEM_NUMBER}}/$problem_number/g" "problem_$problem_number.cpp"
     escaped_description=$(echo "$problem_description" | sed 's/$/\\n/' | sed 's/\//\\\//g' | tr -d '\n')  # Escape forward slashes and remove newlines
     sed -i '' "s/{{DESCRIPTION}}/$escaped_description/" "problem_$problem_number.cpp"
-    sed -i '' "s/{{TITLE}}/$problem_title/" "problem_$problem_number.cpp"
-
-
+    updated_title=$(echo "$problem_title" | sed -E 's/#[0-9]{1,3} (.*) - Project Euler/\1/')
+    sed -i '' "s/{{TITLE}}/$updated_title/" "problem_$problem_number.cpp"
 
     # Optional: Open the file in your preferred text editor
     # open -a "Visual Studio Code" "problem_$problem_number.cpp"  # Use your preferred text editor
