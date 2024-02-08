@@ -23,40 +23,28 @@ g++ std=c++11 -o problem_31 problem_31.cpp
 
 */
 #include <iostream>
-#include <limits>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-vector<vector<int>> get_change_matrix(const vector<int>& coin_set, int r) {
-    vector<vector<int>> m(coin_set.size() + 1, vector<int>(r + 1, 0));
-
-    for (int i = 1; i <= r; ++i) {
-        m[0][i] = numeric_limits<int>::max();
-    }
-    return m;
+bool compare(int a, int b) {
+    return a > b;
 }
 
-int make_change(const vector<int>& coins, int n) {
-    vector<vector<int>> m = get_change_matrix(coins, n);
+int make_change_greedy(vector<int>& coins, int n) {
+    // Sort coins in descending order by denomination
+    reverse(coins.begin(), coins.end());
 
-    for (int c = 1; c <= coins.size(); ++c) {
-        int coin = coins[c - 1];
-        for (int r = 1; r <= n; ++r) {
-            // Use coin
-            if (coin == r) {
-                m[c][r] = 1;
-            }
-            // Coin can't be used--use previous combination and exclude coin
-            else if (coin > r) {
-                m[c][r] = m[c - 1][r];
-            }
-            // Coin can be used
-            else {
-                m[c][r] = min(m[c-1][r], 1 + m[c][r - coin]);
-            }
+    int num_coins = 0;
+
+    for (int i = 0; i < coins.size(); ++i) {
+        while (coins[i] <= n) {
+            n -= coins[i];      // Subtract coin denomination from remaining amount
+            num_coins++;    // Increment number of coins used
         }
     }
-    return m.back().back();
+    return num_coins;
 }
 
 int main() {
@@ -66,7 +54,7 @@ int main() {
     vector<int> coins = {1, 2, 5, 10, 20, 50, 100, 200};
     int n = 200;
 
-    int result = make_change(coins, n);
+    int result = make_change_greedy(coins, n);
 
     cout << "Minimum number of coins required to make " << n << " is: " << result << endl;
 
