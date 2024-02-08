@@ -55,6 +55,9 @@ if cd "problem_$problem_number"; then
         cp ../template.cpp "problem_$problem_number.cpp"
     fi
 
+    echo "Problem Description: $problem_description"
+
+
     # Replace placeholders in the .cpp file
     sed -i '' "s/{{PROBLEM_NUMBER}}/$problem_number/g" "problem_$problem_number.cpp"
     escaped_description=$(echo "$problem_description" | sed 's/$/\\n/' | sed 's/\//\\\//g' | tr -d '\n')  # Escape forward slashes and remove newlines
