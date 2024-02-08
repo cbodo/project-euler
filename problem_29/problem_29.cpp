@@ -27,20 +27,24 @@ g++ problem_29.cpp -o problem_29
 
 */
 #include <iostream>
-#include <unordered_set>
+#include <set>
 
 using namespace std;
 
 int main() {
-    unordered_set<double> distinctTerms;
+    const int lower_limit = 2;
+    const int upper_limit = 100;
 
-    for (int a = 2; a <= 100; ++a) {
-        for (int b = 2; b <= 100; ++b) {
-            distinctTerms.insert(pow(a, b));
+    set<double> distinct_terms;
+
+    for (int a = lower_limit; a <= upper_limit; ++a) {
+        for (int b = lower_limit; b <= upper_limit; ++b) {
+            double result = pow(a, b);
+            distinct_terms.insert(result);
         }
     }
 
-    cout << "Number of distinct terms: " << distinctTerms.size() << endl;
+    cout << "Number of distinct terms: " << distinct_terms.size() << endl;
 
     return 0;
 }
