@@ -18,25 +18,16 @@ g++ problem_10.cpp -o problem_10
 
 */
 #include <iostream>
-#include <chrono>
 
 bool is_prime (int n);
 long long sum_primes (int n);
 
 int main() {
-    // Start timestamp
-    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 
     int n = 2000000;
     long long result = sum_primes(n);
 
     std::cout << "\nThe sum of all primes below " << n << " is: " << result << '\n';
-
-    // End timestamp
-    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-    // Calculate runtime in milliseconds
-    std::chrono::duration<double, std::milli> duration = end - start;
-    std::cout << "\nExecution time: " << duration.count() << " milliseconds" << std::endl;
 
     return 0;
 }
@@ -44,13 +35,13 @@ int main() {
 // Checks the primeness of a number.
 bool is_prime (int n) {
     // n is 1, so it is not prime.
-    if (n < 2) { 
-        return false; 
+    if (n < 2) {
+        return false;
     }
 
     // n is 2, so it is prime.
-    if (n == 2) { 
-        return true; 
+    if (n == 2) {
+        return true;
     }
 
     // n is divisible by 2, so it is not prime.
@@ -80,5 +71,5 @@ long long sum_primes (int n) {
         }
     }
 
-    return sum; 
+    return sum;
 }
