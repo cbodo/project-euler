@@ -23,7 +23,6 @@ g++ problem_5.cpp -o problem_5
 int smallest_multiple (int n);
 int gcd(int a, int b);
 int lcm(int a, int b);
-void print_proof(int result, int n);
 
 int main() {
     // Start timestamp
@@ -32,10 +31,9 @@ int main() {
     // Upper limit for finding the smallest positive number divisible by all number 1 to n.
     int n = 20;
     int result = smallest_multiple(n);
-    
-    print_proof(result, n);
+
     std::cout << "\nThe smallest positive number that is evenly divisible by all numbers from 1 to " << n << " is: " << result << '\n';
-    
+
 
     // End timestamp
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
@@ -70,12 +68,4 @@ int gcd (int a, int b) {
 // Calculates least common multiple.
 int lcm (int a, int b) {
     return (a * b) / gcd(a, b);
-}
-
-// Prints proof that each number divides evenly into the result.
-void print_proof(int result, int n) {
-    std::cout << "\nProof: \n";
-    for(int i = n; i > 0; --i) {
-        std::cout << result << " / " << (i < 10 ? " " : "") << i << " = " << result/i << '\n';
-    }
 }
