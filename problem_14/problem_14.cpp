@@ -31,24 +31,24 @@ g++ problem_14.cpp -o problem_14
 
 */
 #include <iostream>
-#include <chrono>
 #include <vector>
 
-void run_program ();
-void find_collatz_sequence (std::vector<long long>& sequence, long long starting_number);
-std::vector<long long> find_longest_collatz_sequence (int limit);
+using namespace std;
 
-int main() {
-    run_program();
-    return 0;
+// Recursive function to build the Collatz sequece.
+void find_collatz_sequence (vector<long long>& sequence, long long curr) {
+    sequence.push_back(curr);
+    if (curr == 1) { return; }
+    long long prev = curr;
+    find_collatz_sequence(sequence, ((prev % 2 == 0) ? prev / 2 : (3 * prev + 1)));
 }
 
 // Function to find the longest Collatz sequence with the given limit.
-std::vector<long long> find_longest_collatz_sequence (int limit) {
-    std::vector<long long> longest;
+vector<long long> find_longest_collatz_sequence (int limit) {
+    vector<long long> longest;
 
     for (long long i = 1; i < limit; ++i) {
-        std::vector<long long> current;
+        vector<long long> current;
         find_collatz_sequence(current, i);
         if (current.size() > longest.size()) {
             longest = current;
@@ -56,38 +56,19 @@ std::vector<long long> find_longest_collatz_sequence (int limit) {
     }
 
     return longest;
-} 
-
-// Recursive function to build the Collatz sequece.
-void find_collatz_sequence (std::vector<long long>& sequence, long long curr) {
-    sequence.push_back(curr);
-    if (curr == 1) { return; }
-    long long prev = curr;
-    find_collatz_sequence(sequence, ((prev % 2 == 0) ? prev / 2 : (3 * prev + 1)));
 }
 
-void run_program () {
-    // Start timestamp
-    std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
+int main() {
 
     int limit = 1000000;
-    std::vector<long long> longest_sequence = find_longest_collatz_sequence(limit);
+    vector<long long> longest_sequence = find_longest_collatz_sequence(limit);
 
-    std::cout << "\nThe Collatz sequence is:\n";
+    cout << "\nThe starting number < "
+         << limit
+         << " that produces the longest Collatz chain is: "
+         << longest_sequence[0]
+         << endl;
 
-    if (!longest_sequence.empty()) {
-        for (long long number : longest_sequence) {
-            std::cout << number << " ";
-        }
-        std::cout << "\nStarting number: " << longest_sequence[0] << std::endl;
-    } else {
-        std::cout << "No sequence found." << std::endl;
-    }
 
-    // End timestamp
-    std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-
-    // Calculate runtime in milliseconds
-    std::chrono::duration<double, std::milli> duration = end - start;
-    std::cout << "\nExecution time: " << duration.count() << " milliseconds" << std::endl;
+    return 0;
 }
