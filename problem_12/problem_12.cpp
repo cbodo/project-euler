@@ -33,189 +33,50 @@ g++ problem_12.cpp -o problem_12
 
 */
 #include <iostream>
-#include <chrono>
 
-std::chrono::duration<double, std::milli> run_iterative_program(int times_to_run);
-std::chrono::duration<double, std::milli> run_recursive_program(int times_to_run);
-int get_triangle_number_with_n_divisors (int n);
-int get_triangle_number_with_n_divisors_recursive (int n, int current=1, int triangle_number=0, int divisors=0);
-int get_divisors (int n);
-int get_divisors_recursive (int n, int divisors=0, int current=1);
-void print_divisors (int n);
+using namespace std;
 
-int main() {
+int count_divisors(int n) {
+    int divisors = 1;
+    int count = 0;
 
-    // Runs the main recursive program to show the results.
-    int n = 500;
-    int result = get_triangle_number_with_n_divisors_recursive(n);
-
-    std::cout << "\nMain Program\n\nThe lowest triangle number with over " 
-              << n 
-              << " divisors is: " 
-              << result 
-              << ", with " 
-              << get_divisors_recursive(result) 
-              << " divisors.\n";
-
-    // Program analysis -- Iterative vs Recursive approach.
-    // Runs both programs times_to_run times, then calculates an average for each.
-
-    std::cout << "\nProgram Analysis\n";
-
-    int times_to_run = 10000;
-    std::cout << "\nExecuting each program " << times_to_run << " times.\n";
-
-    // Iterative approach
-    std::chrono::duration<double, std::milli> iterative_ave = run_iterative_program(times_to_run);
-    std::cout << "\nIterative approach: " 
-              << "Average runtime of " << iterative_ave.count()<< " milliseconds.";
-
-    // Recursive approach
-    std::chrono::duration<double, std::milli> recursive_ave = run_iterative_program(times_to_run);
-    std::cout << "\nRecursive approach: " 
-              << "Average runtime of " << recursive_ave.count()<< " milliseconds.\n";
-
-    // Result
-    const double epsilon = 1e-9;  // Small epsilon to account for precision issues
-    std::cout << "\nThe " 
-              << ((iterative_ave.count() + epsilon) < recursive_ave.count() ? "Iterative" : "Recursive") 
-              << " approach was faster";
-
-    // Actual difference
-    std::chrono::duration<double, std::milli> runtime_difference = iterative_ave - recursive_ave;
-    std::cout << "\nDifference between approaches: " << std::abs(runtime_difference.count()) << " milliseconds.";
-
-    // Percent difference
-    double percent_difference = std::abs((iterative_ave.count() - recursive_ave.count()) /
-                                    ((iterative_ave.count() + recursive_ave.count()) / 2.0)) * 100.0;
-    std::cout << "\nPercent Difference: " << percent_difference << "%\n\n";
-
-    return 0;
-}
-
-// Finds the smallest triangle number with at least n divisors.
-int get_triangle_number_with_n_divisors (int n) {
-    int current = 1;
-    int triangle_number = 0;
-    int divisors = 0;
-
-    // Iterate until a triangle number with at least n divisors is found
-    while (divisors <= n) {
-        current++;
-        // Increment to next triangle number by adding the current number.
-        triangle_number += current;
-        // Get all divisors for the new triangle_number. 
-        // Iterate from 1 to avoid division by 0 error.
-        // Iterate to sqrt(n) since divisors come in pairs.
-        // For any positive integer 'n' with two divisors 'a' and 'b', 
-        //   if a * b = n, then either a ≤ sqrt(n) < b OR b ≤ sqrt(n) < a.
-        for (int i = 1; i <= sqrt(n); ++i) {
-            if (n % i == 0) {
-                // If i is a perfect square add one, otherwise add two.
-                divisors += (i * i == n) ? 1 : 2;
-            }
-        }
+    // Remove all factors of 2
+    while (n % 2 == 0) {
+        n /= 2;
+        count++;
     }
-    return triangle_number;
-}
+    divisors *= (count + 1);
 
-// Counts the total number of divisors for a given int n.
-int get_divisors (int n) {
-    int divisors = 0;
-
-    // Iterates from 1 to avoid division by 0 error sqrt(n) since all divisors come in pairs.
-    // Thus if a*b=n, both a and b are divisors. One will be < sqrt(n) and the other > sqrt(n).
-    for (int i = 1; i <= sqrt(n); ++i) {
-        if (n % i == 0) {
-            // If i is a perfect square, there is only one divisor and we only need to add one to the count.
-            // If i is not a perfect square, there are two divisors and we need to add two to the count.
-            divisors += (i * i == n) ? 1 : 2;
+    // Check for odd factors
+    for (int i = 3; i <= sqrt(n); i += 2) {
+        count = 0;
+        while (n % i == 0) {
+            n /= i;
+            count++;
         }
+        divisors *= (count + 1);
+    }
+
+    // If n is a prime number greater than 2
+    if (n > 2) {
+        divisors *= 2;
     }
 
     return divisors;
 }
 
-// Completely recursive solution
-// 
+int main() {
+    int divisors = 500;
+    int n = 1;
+    int triangle;
 
-int get_triangle_number_with_n_divisors_recursive (int n, int current, int triangle_number, int divisors) {
-    if (divisors >= n) {
-        return triangle_number;
+    while (count_divisors(triangle) < 500) {
+        triangle = n * (n + 1) / 2;
+        n++;
     }
 
-    current++;
-    triangle_number += current;
-    divisors = get_divisors(triangle_number);
+    cout << "The lowest triangle number with over " << n << " divisors is: " << triangle
+         << " with " << count_divisors(triangle) << " divisors." << endl;
 
-    return get_triangle_number_with_n_divisors_recursive(n, current, triangle_number, divisors);
-}
-
-// Counts the total number of divisors for a given int n.
-int get_divisors_recursive (int n, int divisors, int current) {
-    if (current * current > n) {
-        return divisors;
-    }
-
-    if (n % current == 0) {
-        divisors += (current * current == n) ? 1 : 2;
-    }
-
-    return get_divisors_recursive(n, divisors, current + 1);
-}
-
-std::chrono::duration<double, std::milli> run_iterative_program(int times_to_run) {
-    std::chrono::duration<double, std::milli> total_time;
-
-    for (int i = 0; i < times_to_run; ++i) {
-        // Start timestamp
-        std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-
-        int n = 500;
-        int result = get_triangle_number_with_n_divisors(n);
-
-        // std::cout << "\nThe lowest triangle number with over " 
-        //           << n 
-        //           << " divisors is: " 
-        //           << result 
-        //           << ", with " 
-        //           << get_divisors(result) 
-        //           << " divisors.\n";
-
-        // End timestamp
-        std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-        // Calculate runtime in milliseconds
-        std::chrono::duration<double, std::milli> duration = end - start;
-        total_time += duration;
-    }
-
-    return total_time / times_to_run;
-}
-
-std::chrono::duration<double, std::milli> run_recursive_program(int times_to_run) {
-    std::chrono::duration<double, std::milli> total_time;
-
-    for (int i = 0; i < times_to_run; ++i) {
-        // Start timestamp
-        std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
-
-        int n = 500;
-        int result = get_triangle_number_with_n_divisors_recursive(n);
-
-        // std::cout << "\nThe lowest triangle number with over " 
-        //           << n 
-        //           << " divisors is: " 
-        //           << result 
-        //           << ", with " 
-        //           << get_divisors(result) 
-        //           << " divisors.\n";
-
-        // End timestamp
-        std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-        // Calculate runtime in milliseconds
-        std::chrono::duration<double, std::milli> duration = end - start;
-        total_time += duration;
-    }
-
-    return total_time / times_to_run;
+    return 0;
 }
