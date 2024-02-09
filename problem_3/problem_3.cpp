@@ -19,7 +19,7 @@ g++ problem_3.cpp -o problem_3
 */
 #include <iostream>
 
-long largest_prime_factor (long num, long divisor);
+long largest_prime_factor (long num, long divisor=2);
 
 int main() {
     // Start timestamp
@@ -40,8 +40,8 @@ int main() {
 }
 
 // Finds the largest prime factor of a number, starting with the smallest divisor possible (2).
-long largest_prime_factor (long num, long divisor = 2) {
-    
+long largest_prime_factor (long num, long divisor) {
+
     // Base case: return when n is 1.
     if(num == 1) { return divisor; }
 
