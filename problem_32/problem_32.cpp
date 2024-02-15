@@ -40,10 +40,13 @@ void get_n_digit_permutations(int n) {
     iota(digits.begin(), digits.end(), 1);
 
     do {
+        vector<int> permutation(n);
         for (int digit : digits) {
-            cout << digit << " ";
+            permutation.push_back(digit);
         }
-        cout << endl;
+        for (int digit : permutation) {
+
+        }
     } while (next_permutation(digits.begin(), digits.end()));
 }
 
