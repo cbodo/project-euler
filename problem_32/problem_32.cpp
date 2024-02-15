@@ -22,13 +22,36 @@ g++ problem_32.cpp -o problem_32
 
 */
 #include <iostream>
+#include <vector>
+#include <numeric>
 
 using namespace std;
 
+void print_vec(const vector<int>& vec) {
+    for (int it : vec) {
+        cout << it << " ";
+    }
+    cout << endl;
+}
+
+void get_n_digit_permutations(int n) {
+    vector<vector<int>> n_permutations;
+    vector<int> digits(n);
+    iota(digits.begin(), digits.end(), 1);
+
+    do {
+        for (int digit : digits) {
+            cout << digit << " ";
+        }
+        cout << endl;
+    } while (next_permutation(digits.begin(), digits.end()));
+}
 
 int main() {
 
     cout << endl << "Project Euler - Problem #32: Pandigital Products" << endl << endl;
+
+    get_n_digit_permutations(9);
 
     return 0;
 }
