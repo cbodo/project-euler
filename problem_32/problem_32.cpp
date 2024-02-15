@@ -27,15 +27,35 @@ g++ problem_32.cpp -o problem_32
 
 using namespace std;
 
-void print_vec(const vector<int>& vec) {
-    for (int it : vec) {
-        cout << it << " ";
+// Function to check if a product is pandigital
+bool is_pandigital_product(int multiplicand, int multiplier, int product, int n) {
+    int digits = (1 << (n + 1)) - 2; // Represents 1 through n pandigital
+    while (multiplicand > 0) {
+        digits &= ~(1 << (multiplicand % 10));
+        multiplicand /= 10;
     }
-    cout << endl;
+    while (multiplier > 0) {
+        digits &= ~(1 << (multiplier % 10));
+        multiplier /= 10;
+    }
+    while (product > 0) {
+        digits &= ~(1 << (product % 10));
+        product /= 10;
+    }
+    return digits == 0;
 }
 
-void get_n_digit_permutations(int n) {
-    vector<vector<int>> n_permutations;
+void add_unique(vector<int>& vec, int num) {
+    // Check if the number already exists in the vector
+    auto it = find(vec.begin(), vec.end(), num);
+    if (it == vec.end()) {
+        // Number does not exist, add it to the vector
+        vec.push_back(num);
+    }
+}
+
+int get_n_digit_pandigitals(int n) {
+    vector<int> products;
     vector<int> digits(n);
     iota(digits.begin(), digits.end(), 1);
 
@@ -44,17 +64,43 @@ void get_n_digit_permutations(int n) {
         for (int digit : digits) {
             permutation.push_back(digit);
         }
-        for (int digit : permutation) {
 
+        int pandigital_int = 0;
+        for (int digit : permutation) {
+            pandigital_int = pandigital_int * 10 + digit;
+
+            // Check for pandigital products
+            for (int i = 1; i <= n / 2; ++i) {
+                for (int j = i + 1; j < n; ++j) {
+                    int multiplicand = pandigital_int / static_cast<int>(pow(10, j)) % static_cast<int>(pow(10, i));
+                    int multiplier = pandigital_int / static_cast<int>(pow(10, n)) % static_cast<int>(pow(10, j - i));
+                    int product = pandigital_int % static_cast<int>(pow(10, i));
+                    if (is_pandigital_product(multiplicand, multiplier, product, n)) {
+                        cout << "Found pandigital product: " << multiplicand << " x " << multiplier << " = " << product << endl;
+                        add_unique(products, product);
+                    }
+                }
+            }
         }
     } while (next_permutation(digits.begin(), digits.end()));
+
+    // Sum the unique products
+    int product_sum = 0;
+
+    for (int num : products) {
+        product_sum += num;
+    }
+
+    return product_sum;
 }
 
 int main() {
 
     cout << endl << "Project Euler - Problem #32: Pandigital Products" << endl << endl;
 
-    get_n_digit_permutations(9);
+    int n = 9;
+
+    cout << "Sum of all unique products in every " << n << "-digit pandigital number: " << get_n_digit_pandigitals(n) << endl;
 
     return 0;
 }
